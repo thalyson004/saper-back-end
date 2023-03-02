@@ -1,11 +1,12 @@
 package com.saper.backend.controller;
 
+import com.saper.backend.dto.ClientRequestDTO;
+import com.saper.backend.dto.ClientResponseDTO;
 import com.saper.backend.model.Client;
 import com.saper.backend.repository.ClientRepository;
+import com.saper.backend.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -14,10 +15,18 @@ import java.util.List;
 public class ClientController {
 
     @Autowired
-    ClientRepository clientRepository;
+    ClientService clientService;
 
     @GetMapping
-    public List<Client> findAll(){
-        return clientRepository.findAll();
+    public List<ClientResponseDTO> findAll(){
+        List<Client> list = clientService.findAll();
+        return list.stream().map(ClientResponseDTO::new).toList();
+    }
+
+    @PostMapping
+    public ClientResponseDTO save(@RequestBody ClientRequestDTO clientRequestDTO){
+
+
+        return clientService.save(clientRequestDTO);
     }
 }
