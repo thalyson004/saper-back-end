@@ -12,10 +12,19 @@ public class Box{
     )
     Long id;
 
+    @Column(
+        nullable = false
+    )
     String name;
 
+    @Column(
+        nullable = false
+    )
     int capacity;
 
+    @Column(
+        nullable = false
+    )
     String created_by;
 
     public Box() {

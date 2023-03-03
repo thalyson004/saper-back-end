@@ -11,8 +11,16 @@ public class Client {
     )
     Long id;
     String name;
-
+    @Column(
+        name = "login",
+        nullable = false,
+        unique = true
+    )
     String login;
+    @Column(
+            name = "password",
+            nullable = false
+    )
     String password;
 
     public Client(String name, String login, String password) {
