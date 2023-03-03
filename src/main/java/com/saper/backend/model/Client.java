@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 @Entity
 public class Client {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String name;
     String login;

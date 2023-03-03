@@ -9,7 +9,7 @@ import jakarta.persistence.Id;
 public class Box{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     String name;
