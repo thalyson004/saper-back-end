@@ -18,8 +18,9 @@ public class ClientController {
     ClientService clientService;
 
     @GetMapping
-    public List<ClientResponseDTO> findAll(){
-        List<Client> list = clientService.findAll();
+    public List<ClientResponseDTO> findAll(
+            @RequestParam(name = "name", defaultValue = "") String name){
+        List<Client> list = clientService.findAll(name);
         return list.stream().map(ClientResponseDTO::new).toList();
     }
 
