@@ -16,8 +16,12 @@ public class BoxService {
     BoxRespository boxRespository;
 
 
-    public List<BoxResponseDTO> findAll() {
-        return boxRespository.findAll().stream().map(BoxResponseDTO::new).toList();
+    public List<BoxResponseDTO> findAll(String name) {
+        if(name.equals("")) {
+            return boxRespository.findAll().stream().map(BoxResponseDTO::new).toList();
+        }else{
+            return boxRespository.findAllByNameContainsIgnoreCase(name).stream().map(BoxResponseDTO::new).toList();
+        }
     }
 
     public BoxRequestDTO save(BoxRequestDTO boxRequestDTO) {

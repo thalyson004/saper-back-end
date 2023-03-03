@@ -17,8 +17,9 @@ public class BoxController {
     BoxService boxService;
 
     @GetMapping
-    public List<BoxResponseDTO> findAll(){
-        return boxService.findAll();
+    public List<BoxResponseDTO> findAll(@RequestParam(name = "name", defaultValue = "") String name){
+
+        return boxService.findAll(name);
     }
 
     @PostMapping
