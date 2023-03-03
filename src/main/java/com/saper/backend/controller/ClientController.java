@@ -25,8 +25,6 @@ public class ClientController {
 
     @PostMapping
     public ClientResponseDTO save(@RequestBody ClientRequestDTO clientRequestDTO){
-
-
         return clientService.save(clientRequestDTO);
     }
 }
