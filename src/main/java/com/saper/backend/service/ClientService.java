@@ -18,7 +18,7 @@ public class ClientService {
         if(name.equals("")) {
             return clientRepository.findAll();
         }else {
-            return clientRepository.findAllByName(name);
+            return clientRepository.findAllByNameContainingIgnoreCase(name);
         }
     }
 
