@@ -16,8 +16,8 @@ public class BoxService {
     BoxRespository boxRespository;
 
 
-    public List<BoxResponseDTO> findAll() {
-        return boxRespository.findAll().stream().map(BoxResponseDTO::new).toList();
+    public List<BoxResponseDTO> findAll(String name, int min, int max) {
+        return boxRespository.findAllByNameContainingIgnoreCaseAndCapacityGreaterThanEqualAndCapacityLessThanEqual(name, min, max).stream().map(BoxResponseDTO::new).toList();
     }
 
     public BoxRequestDTO save(BoxRequestDTO boxRequestDTO) {

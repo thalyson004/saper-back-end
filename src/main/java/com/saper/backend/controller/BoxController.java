@@ -17,8 +17,13 @@ public class BoxController {
     BoxService boxService;
 
     @GetMapping
-    public List<BoxResponseDTO> findAll(){
-        return boxService.findAll();
+    public List<BoxResponseDTO> findAll(
+            @RequestParam(name = "name", defaultValue = "") String name,
+            @RequestParam(name = "min", defaultValue = "0") int min,
+            @RequestParam(name = "max", defaultValue = "9999") int max
+    ){
+
+        return boxService.findAll(name, min, max);
     }
 
     @PostMapping
