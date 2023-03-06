@@ -5,9 +5,12 @@ import com.saper.backend.dto.ClientResponseDTO;
 import com.saper.backend.model.Client;
 import com.saper.backend.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -30,13 +33,16 @@ public class ClientController {
     }
 
     @GetMapping("/{id}")
-    public  ClientResponseDTO find(
+    public ResponseEntity<Object>  find(
             @PathVariable(name = "id") Long id,
             @RequestBody ClientRequestDTO clientRequestDTO){
 
         Optional<Client> client = clientService.findById(id);
-
-        return new ClientResponseDTO(client.get());
+        if(client.isPresent()) {
+            return ResponseEntity.ok(client);
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
+        }
     }
 
 
