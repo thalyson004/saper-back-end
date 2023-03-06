@@ -4,6 +4,7 @@ import com.saper.backend.dto.ClientRequestDTO;
 import com.saper.backend.dto.ClientResponseDTO;
 import com.saper.backend.model.Client;
 import com.saper.backend.repository.ClientRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +42,29 @@ public class ClientService {
             return ResponseEntity.status(HttpStatus.OK).body(new ClientResponseDTO(clientOptional.get()));
         }else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado.");
+        }
+    }
+
+    public ResponseEntity<Object> update(Long id, ClientRequestDTO clientRequestDTO) {
+        //Achar
+        Optional<Client> clientOptional = clientRepository.findById(id);
+        if(clientOptional.isPresent()){
+            Client client = clientOptional.get();
+            // Modificar
+            if(clientRequestDTO.getName()!=null){
+                client.setName(clientRequestDTO.getName());
+            }
+            if(clientRequestDTO.getPassword()!=null){
+                client.setPassword(clientRequestDTO.getPassword());
+            }
+            if(clientRequestDTO.getLogin()!=null){
+                client.setLogin(clientRequestDTO.getLogin());
+            }
+            // Salvar
+            ClientResponseDTO clientResponseDTO = new ClientResponseDTO(clientRepository.save(client));
+            return ResponseEntity.status(HttpStatus.CREATED).body(clientResponseDTO);
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
         }
     }
 }
