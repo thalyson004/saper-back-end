@@ -39,7 +39,7 @@ public class ClientService {
         Optional<Client> client = clientRepository.findById(id);
 
         if(client.isPresent()) {
-            return ResponseEntity.ok(client);
+            return ResponseEntity.ok(new ClientResponseDTO(client.get()));
         }else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
         }

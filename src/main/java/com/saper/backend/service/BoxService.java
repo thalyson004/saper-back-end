@@ -39,7 +39,7 @@ public class BoxService {
         Optional<Box> box = boxRespository.findById(id);
 
         if(box.isPresent()){
-            return ResponseEntity.ok().body(box);
+            return ResponseEntity.ok().body(new BoxResponseDTO(box.get()));
         }else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Box não encontrado");
         }
