@@ -23,6 +23,9 @@ public class Client {
     )
     String password;
 
+    @OneToOne(mappedBy = "client", cascade = CascadeType.ALL)
+    Student student;
+
     public Client(String name, String login, String password) {
         this.name = name;
         this.login = login;
@@ -30,6 +33,22 @@ public class Client {
     }
 
     public Client() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
     public String getName() {
