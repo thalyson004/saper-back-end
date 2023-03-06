@@ -6,6 +6,9 @@ public class ClientResponseDTO {
     String name;
     String login;
 
+    public ClientResponseDTO() {
+    }
+
     public ClientResponseDTO(String name, String login) {
         this.name = name;
         this.login = login;

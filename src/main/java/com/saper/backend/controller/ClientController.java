@@ -6,6 +6,7 @@ import com.saper.backend.model.Client;
 import com.saper.backend.repository.ClientRepository;
 import com.saper.backend.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +17,11 @@ public class ClientController {
 
     @Autowired
     ClientService clientService;
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> find(@PathVariable(name = "id") Long id){
+        return clientService.find(id);
+    }
 
     @GetMapping
     public List<ClientResponseDTO> findAll(
