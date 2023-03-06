@@ -39,5 +39,13 @@ public class ClientController {
         return clientService.findById(id);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Object>  update(
+            @PathVariable(name = "id") Long id,
+            @RequestBody ClientRequestDTO clientRequestDTO){
+
+        return clientService.update(id, clientRequestDTO);
+    }
+
 
 }

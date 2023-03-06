@@ -4,6 +4,7 @@ import com.saper.backend.dto.ClientRequestDTO;
 import com.saper.backend.dto.ClientResponseDTO;
 import com.saper.backend.model.Client;
 import com.saper.backend.repository.ClientRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +40,17 @@ public class ClientService {
 
         if(client.isPresent()) {
             return ResponseEntity.ok(client);
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
+        }
+    }
+
+    public ResponseEntity<Object> update(Long id, ClientRequestDTO clientRequestDTO) {
+        Optional<Client> client = clientRepository.findById(id);
+        if(client.isPresent()) {
+            Client client1 = client.get();
+            BeanUtils.copyProperties(clientRequestDTO, client1);
+            return ResponseEntity.ok(clientRepository.save(client1));
         }else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
         }
