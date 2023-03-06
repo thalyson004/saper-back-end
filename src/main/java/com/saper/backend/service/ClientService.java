@@ -5,6 +5,8 @@ import com.saper.backend.dto.ClientResponseDTO;
 import com.saper.backend.model.Client;
 import com.saper.backend.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,7 +34,13 @@ public class ClientService {
         return new ClientResponseDTO(clientRepository.save(client));
     }
 
-    public Optional<Client> findById(Long id) {
-        return clientRepository.findById(id);
+    public ResponseEntity<Object> findById(Long id) {
+        Optional<Client> client = clientRepository.findById(id);
+
+        if(client.isPresent()) {
+            return ResponseEntity.ok(client);
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
+        }
     }
 }

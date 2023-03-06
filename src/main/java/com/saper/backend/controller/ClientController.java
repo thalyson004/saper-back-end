@@ -37,12 +37,7 @@ public class ClientController {
             @PathVariable(name = "id") Long id,
             @RequestBody ClientRequestDTO clientRequestDTO){
 
-        Optional<Client> client = clientService.findById(id);
-        if(client.isPresent()) {
-            return ResponseEntity.ok(client);
-        }else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
-        }
+        return clientService.findById(id);
     }
 
 
