@@ -49,7 +49,19 @@ public class ClientService {
         Optional<Client> client = clientRepository.findById(id);
         if(client.isPresent()) {
             Client client1 = client.get();
-            BeanUtils.copyProperties(clientRequestDTO, client1);
+
+            if(clientRequestDTO.getName()!=null){
+                client1.setName(clientRequestDTO.getName());
+            }
+
+            if(clientRequestDTO.getLogin()!=null){
+                client1.setLogin(clientRequestDTO.getLogin());
+            }
+
+            if(clientRequestDTO.getPassword()!=null){
+                client1.setPassword(clientRequestDTO.getPassword());
+            }
+
             return ResponseEntity.ok(clientRepository.save(client1));
         }else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
