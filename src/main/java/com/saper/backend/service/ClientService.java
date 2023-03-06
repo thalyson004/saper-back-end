@@ -4,6 +4,7 @@ import com.saper.backend.dto.ClientRequestDTO;
 import com.saper.backend.dto.ClientResponseDTO;
 import com.saper.backend.model.Client;
 import com.saper.backend.repository.ClientRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,7 @@ public class ClientService {
     }
 
 
+    @Transactional
     public ClientResponseDTO save(ClientRequestDTO clientRequestDTO) {
         // Verificaço de regras
 
@@ -45,6 +47,7 @@ public class ClientService {
         }
     }
 
+    @Transactional
     public ResponseEntity<Object> update(Long id, ClientRequestDTO clientRequestDTO) {
         //Achar
         Optional<Client> clientOptional = clientRepository.findById(id);
@@ -63,6 +66,18 @@ public class ClientService {
             // Salvar
             ClientResponseDTO clientResponseDTO = new ClientResponseDTO(clientRepository.save(client));
             return ResponseEntity.status(HttpStatus.CREATED).body(clientResponseDTO);
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
+        }
+    }
+
+    @Transactional
+    public ResponseEntity<Object> delete(Long id) {
+        Optional<Client> clientOptional = clientRepository.findById(id);
+        if(clientOptional.isPresent()){
+            Client client = clientOptional.get();
+            clientRepository.delete(client);
+            return ResponseEntity.status(HttpStatus.OK).build();
         }else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
         }
