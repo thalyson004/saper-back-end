@@ -2,7 +2,9 @@ package com.saper.backend.service;
 
 import com.saper.backend.dto.BoxRequestDTO;
 import com.saper.backend.dto.BoxResponseDTO;
+import com.saper.backend.dto.ClientRequestDTO;
 import com.saper.backend.model.Box;
+import com.saper.backend.model.Client;
 import com.saper.backend.repository.BoxRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,6 +40,26 @@ public class BoxService {
 
         if(box.isPresent()){
             return ResponseEntity.ok().body(box);
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Box não encontrado");
+        }
+    }
+
+    public ResponseEntity<Object> update(Long id, BoxRequestDTO boxRequestDTO) {
+        Optional<Box> box = boxRespository.findById(id);
+
+        if(box.isPresent()) {
+            Box box1 = box.get();
+
+            if(boxRequestDTO.getName()!=null){
+                box1.setName(boxRequestDTO.getName());
+            }
+
+            if(boxRequestDTO.getCapacity()!=0){
+                box1.setCapacity(boxRequestDTO.getCapacity());
+            }
+
+            return ResponseEntity.ok(boxRespository.save(box1));
         }else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Box não encontrado");
         }
