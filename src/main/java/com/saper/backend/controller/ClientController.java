@@ -34,8 +34,7 @@ public class ClientController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Object>  find(
-            @PathVariable(name = "id") Long id,
-            @RequestBody ClientRequestDTO clientRequestDTO){
+            @PathVariable(name = "id") Long id){
 
         return clientService.findById(id);
     }
