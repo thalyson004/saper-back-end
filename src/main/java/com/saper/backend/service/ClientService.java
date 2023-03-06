@@ -62,7 +62,7 @@ public class ClientService {
                 client1.setPassword(clientRequestDTO.getPassword());
             }
 
-            return ResponseEntity.ok(clientRepository.save(client1));
+            return ResponseEntity.ok(new ClientResponseDTO(clientRepository.save(client1)));
         }else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
         }

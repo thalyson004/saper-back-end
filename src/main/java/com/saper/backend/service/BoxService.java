@@ -59,7 +59,7 @@ public class BoxService {
                 box1.setCapacity(boxRequestDTO.getCapacity());
             }
 
-            return ResponseEntity.ok(boxRespository.save(box1));
+            return ResponseEntity.ok(new BoxResponseDTO(boxRespository.save(box1)));
         }else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Box não encontrado");
         }
