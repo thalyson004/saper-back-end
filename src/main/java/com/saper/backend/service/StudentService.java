@@ -3,6 +3,7 @@ package com.saper.backend.service;
 import com.saper.backend.dto.ClientRequestDTO;
 import com.saper.backend.dto.ClientResponseDTO;
 import com.saper.backend.dto.StudentRequestDTO;
+import com.saper.backend.dto.StudentResponseDTO;
 import com.saper.backend.model.Client;
 import com.saper.backend.model.Student;
 import com.saper.backend.repository.ClientRepository;
@@ -37,6 +38,6 @@ public class StudentService {
         student.setPaid(false);
         student.setClient(client);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(studentRepository.save(student));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new StudentResponseDTO(studentRepository.save(student)));
     }
 }
