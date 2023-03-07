@@ -2,11 +2,8 @@ package com.saper.backend.model;
 
 import jakarta.persistence.*;
 
-import java.lang.annotation.Target;
-import java.util.Date;
-
 @Entity
-public class Class {
+public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -15,16 +12,16 @@ public class Class {
     // Estudantes
 
     @Column(name = "schedule")
-    String schedule; //TODO: mudar para Date
+    String schedule; //TODO: mudar para DayOfWeek e LocalTime
 
     @ManyToOne(targetEntity = Box.class)
     @JoinColumn(name = "box_id")
     Box box;
 
-    public Class() {
+    public Team() {
     }
 
-    public Class(Long id, String schedule, Box box) {
+    public Team(Long id, String schedule, Box box) {
         this.id = id;
         this.schedule = schedule;
         this.box = box;
