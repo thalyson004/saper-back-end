@@ -2,7 +2,6 @@ package com.saper.backend.controller;
 
 import com.saper.backend.dto.BoxRequestDTO;
 import com.saper.backend.dto.BoxResponseDTO;
-import com.saper.backend.model.Box;
 import com.saper.backend.service.BoxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +27,7 @@ public class BoxController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> find(
+    public ResponseEntity<Object> findById(
             @PathVariable(name = "id") Long id){
 
         return boxService.findById(id);

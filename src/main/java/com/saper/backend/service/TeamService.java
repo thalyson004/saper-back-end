@@ -1,6 +1,7 @@
 package com.saper.backend.service;
 
 import com.saper.backend.dto.TeamRequestDTO;
+import com.saper.backend.dto.TeamResponseDTO;
 import com.saper.backend.model.Box;
 import com.saper.backend.model.Team;
 import com.saper.backend.repository.BoxRespository;
@@ -32,7 +33,7 @@ public class TeamService {
             Team team = new Team();
             team.setSchedule(teamRequestDTO.getSchedule());
             team.setBox(boxOptional.get());
-            return ResponseEntity.status(HttpStatus.CREATED).body(teamRepository.save(team));
+            return ResponseEntity.status(HttpStatus.CREATED).body(new TeamResponseDTO(teamRepository.save(team)));
         }else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Box não encontrado.");
         }

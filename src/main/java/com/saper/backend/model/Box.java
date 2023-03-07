@@ -2,6 +2,8 @@ package com.saper.backend.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity(name = "box")
 public class Box{
 
@@ -16,6 +18,9 @@ public class Box{
 
     String created_by;
 
+    @OneToMany(targetEntity = Team.class, mappedBy = "box")
+    List<Team> teams;
+
     public Box() {
     }
 
@@ -24,6 +29,22 @@ public class Box{
         this.name = name;
         this.capacity = capacity;
         this.created_by = created_by;
+    }
+
+    public Box(Long id, String name, int capacity, String created_by, List<Team> teams) {
+        this.id = id;
+        this.name = name;
+        this.capacity = capacity;
+        this.created_by = created_by;
+        this.teams = teams;
+    }
+
+    public List<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(List<Team> teams) {
+        this.teams = teams;
     }
 
     public Long getId() {
