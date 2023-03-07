@@ -2,6 +2,8 @@ package com.saper.backend.model;
 
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 public class Team {
 
@@ -12,6 +14,11 @@ public class Team {
     // Professor responsável
 
     // Alunos matriculados
+    @ManyToMany(
+            targetEntity = Student.class,
+            cascade = CascadeType.ALL,
+            mappedBy = "teams")
+    Set<Student> students;
 
     @Column(name = "schedule")
     String schedule; //TODO: Mudar para DayOfWeek end LocalTime
@@ -25,10 +32,19 @@ public class Team {
     public Team() {
     }
 
-    public Team(Long id, String schedule, Box box) {
+    public Team(Long id, Set<Student> students, String schedule, Box box) {
         this.id = id;
+        this.students = students;
         this.schedule = schedule;
         this.box = box;
+    }
+
+    public Set<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Set<Student> students) {
+        this.students = students;
     }
 
     public Long getId() {

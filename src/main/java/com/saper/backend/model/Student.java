@@ -2,6 +2,8 @@ package com.saper.backend.model;
 
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 public class Student {
     @Id
@@ -18,14 +20,32 @@ public class Student {
     @JoinColumn(name = "client_id")
     Client client;
 
+    @ManyToMany(
+            targetEntity = Team.class,
+            cascade = CascadeType.ALL)
+    @JoinTable(name = "enrollment",
+                joinColumns = @JoinColumn(name = "student_id"),
+                inverseJoinColumns = @JoinColumn(name = "team_id"))
+    Set<Team> teams;
+
+
     public Student() {
     }
 
-    public Student(Long id, String registration, boolean paid, Client client) {
+    public Student(Long id, String registration, boolean paid, Client client, Set<Team> teams) {
         this.id = id;
         this.registration = registration;
         this.paid = paid;
         this.client = client;
+        this.teams = teams;
+    }
+
+    public Set<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(Set<Team> teams) {
+        this.teams = teams;
     }
 
     public Long getId() {
