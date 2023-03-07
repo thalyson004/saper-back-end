@@ -22,7 +22,9 @@ public class Student {
     Client client;
 
     @ManyToMany(targetEntity = Team.class)
-    @JoinTable(name = "enrollment")
+    @JoinTable(name = "enrollment",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "team_id"))
     Set<Team> teams;
 
     public Student() {
