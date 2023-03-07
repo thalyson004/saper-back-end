@@ -23,6 +23,9 @@ public class Client {
     )
     String password;
 
+    @OneToOne(targetEntity = Student.class, cascade = CascadeType.ALL, mappedBy = "client")
+    Student student;
+
     public Client(String name, String login, String password) {
         this.name = name;
         this.login = login;

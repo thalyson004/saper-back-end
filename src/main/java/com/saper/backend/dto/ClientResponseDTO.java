@@ -6,17 +6,29 @@ public class ClientResponseDTO {
     String name;
     String login;
 
+    Long student_id;
+
     public ClientResponseDTO() {
     }
 
-    public ClientResponseDTO(String name, String login) {
+    public ClientResponseDTO(String name, String login, Long student_id) {
         this.name = name;
         this.login = login;
+        this.student_id = student_id;
     }
 
     public ClientResponseDTO(Client client) {
         this.name = client.getName();
         this.login = client.getLogin();
+        this.student_id = client.getId();
+    }
+
+    public Long getStudent_id() {
+        return student_id;
+    }
+
+    public void setStudent_id(Long student_id) {
+        this.student_id = student_id;
     }
 
     public String getName() {

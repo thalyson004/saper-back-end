@@ -4,6 +4,7 @@ import com.saper.backend.dto.BoxRequestDTO;
 import com.saper.backend.dto.BoxResponseDTO;
 import com.saper.backend.model.Box;
 import com.saper.backend.repository.BoxRespository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,7 @@ public class BoxService {
         return boxRespository.findAllByNameContainingIgnoreCaseAndCapacityGreaterThanEqualAndCapacityLessThanEqual(name, min, max).stream().map(BoxResponseDTO::new).toList();
     }
 
+    @Transactional
     public BoxRequestDTO save(BoxRequestDTO boxRequestDTO) {
         Box box = new Box();
         box.setCapacity(boxRequestDTO.getCapacity());
@@ -33,6 +35,7 @@ public class BoxService {
         return boxRequestDTO;
     }
 
+    @Transactional
     public ResponseEntity<Object> update(Long id, BoxRequestDTO boxRequestDTO) {
         Optional<Box> boxOptional = boxRespository.findById(id);
         if(boxOptional.isPresent()){

@@ -18,4 +18,10 @@ public class StudentController {
             @RequestBody StudentRequestDTO studentRequestDTO){
         return studentService.save(studentRequestDTO);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> findById(
+            @PathVariable(name = "id") Long id){
+        return studentService.findById(id);
+    }
 }
