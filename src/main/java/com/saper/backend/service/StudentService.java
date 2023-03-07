@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class StudentService {
 
@@ -39,5 +41,15 @@ public class StudentService {
         student.setClient(client);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new StudentResponseDTO(studentRepository.save(student)));
+    }
+
+    public ResponseEntity<Object> findById(Long id) {
+        Optional<Student> studentOptional = studentRepository.findById(id);
+
+        if(studentOptional.isPresent()){
+            return ResponseEntity.status(HttpStatus.OK).body(new StudentResponseDTO(studentOptional.get()));
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Estudante não encontrado.");
+        }
     }
 }

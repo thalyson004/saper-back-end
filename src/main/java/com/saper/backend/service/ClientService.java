@@ -41,6 +41,7 @@ public class ClientService {
         Optional<Client> clientOptional = clientRepository.findById(id);
 
         if(clientOptional.isPresent()){
+            System.out.println(clientOptional.get().getStudent().getRegistration());
             return ResponseEntity.status(HttpStatus.OK).body(new ClientResponseDTO(clientOptional.get()));
         }else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado.");
