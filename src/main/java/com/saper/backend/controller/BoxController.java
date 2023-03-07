@@ -27,6 +27,13 @@ public class BoxController {
         return boxService.findAll(name, min, max);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> find(
+            @PathVariable(name = "id") Long id){
+
+        return boxService.findById(id);
+    }
+
     @PostMapping
     public BoxRequestDTO save(@RequestBody BoxRequestDTO boxRequestDTO){
         return boxService.save(boxRequestDTO);

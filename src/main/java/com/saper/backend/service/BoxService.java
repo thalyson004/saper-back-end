@@ -52,4 +52,14 @@ public class BoxService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Box não encontrado");
         }
     }
+
+    public ResponseEntity<Object> findById(Long id) {
+        Optional<Box> box = boxRespository.findById(id);
+
+        if(box.isPresent()){
+            return ResponseEntity.ok().body(new BoxResponseDTO(box.get()));
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Box não encontrado");
+        }
+    }
 }
