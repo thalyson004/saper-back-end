@@ -1,8 +1,10 @@
 package com.saper.backend.service;
 
+import com.saper.backend.dto.StudentResponseDTO;
 import com.saper.backend.dto.TeamRequestDTO;
 import com.saper.backend.dto.TeamResponseDTO;
 import com.saper.backend.model.Box;
+import com.saper.backend.model.Student;
 import com.saper.backend.model.Team;
 import com.saper.backend.repository.BoxRespository;
 import com.saper.backend.repository.TeamRepository;
@@ -36,6 +38,16 @@ public class TeamService {
             return ResponseEntity.status(HttpStatus.CREATED).body(new TeamResponseDTO(teamRepository.save(team)));
         }else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Box não encontrado.");
+        }
+    }
+
+    public ResponseEntity<Object> findById(Long id) {
+        Optional<Team> teamOptional = teamRepository.findById(id);
+
+        if(teamOptional.isPresent()){
+            return ResponseEntity.status(HttpStatus.OK).body(new TeamResponseDTO(teamOptional.get()));
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Time não encontrado.");
         }
     }
 }
