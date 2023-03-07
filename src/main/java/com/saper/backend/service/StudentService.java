@@ -6,8 +6,10 @@ import com.saper.backend.dto.StudentRequestDTO;
 import com.saper.backend.dto.StudentResponseDTO;
 import com.saper.backend.model.Client;
 import com.saper.backend.model.Student;
+import com.saper.backend.model.Team;
 import com.saper.backend.repository.ClientRepository;
 import com.saper.backend.repository.StudentRepository;
+import com.saper.backend.repository.TeamRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +27,8 @@ public class StudentService {
     @Autowired
     ClientRepository clientRepository;
 
+    @Autowired
+    TeamRepository teamRepository;
 
     public ResponseEntity<Object> save(StudentRequestDTO studentRequestDTO) {
 
@@ -51,5 +55,26 @@ public class StudentService {
         }else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Estudante não encontrado.");
         }
+    }
+
+    public ResponseEntity<Object> enroll(Long student_id, Long team_id) {
+        Optional<Student> studentOptional = studentRepository.findById(student_id);
+
+        if(studentOptional.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Estudante não encontrado.");
+        }
+
+        Optional<Team> teamOptional = teamRepository.findById(team_id);
+
+        if(teamOptional.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Time não encontrado.");
+        }
+
+        Team team = teamOptional.get();
+        Student student = studentOptional.get();
+
+        student.getTeams().add(team);
+
+        return ResponseEntity.status(HttpStatus.OK).body(new StudentResponseDTO(studentRepository.save(student)));
     }
 }

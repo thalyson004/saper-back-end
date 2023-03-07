@@ -2,6 +2,8 @@ package com.saper.backend.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 public class Student {
     @Id
@@ -18,14 +20,27 @@ public class Student {
     @JoinColumn(name = "client_id")
     Client client;
 
+    @ManyToMany(targetEntity = Team.class)
+    @JoinTable(name = "enrollment")
+    List<Team> teams;
+
     public Student() {
     }
 
-    public Student(Long id, String registration, boolean paid, Client client) {
+    public Student(Long id, String registration, boolean paid, Client client, List<Team> teams) {
         this.id = id;
         this.registration = registration;
         this.paid = paid;
         this.client = client;
+        this.teams = teams;
+    }
+
+    public List<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(List<Team> teams) {
+        this.teams = teams;
     }
 
     public Long getId() {

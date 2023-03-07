@@ -2,6 +2,8 @@ package com.saper.backend.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 public class Team {
     @Id
@@ -9,7 +11,10 @@ public class Team {
     Long id;
 
     // Professor Responsável
+
     // Estudantes
+    @ManyToMany(targetEntity = Student.class, mappedBy = "teams")
+    List<Student> students;
 
     @Column(name = "schedule")
     String schedule; //TODO: mudar para DayOfWeek e LocalTime
@@ -21,10 +26,19 @@ public class Team {
     public Team() {
     }
 
-    public Team(Long id, String schedule, Box box) {
+    public Team(Long id, List<Student> students, String schedule, Box box) {
         this.id = id;
+        this.students = students;
         this.schedule = schedule;
         this.box = box;
+    }
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
     }
 
     public Long getId() {
@@ -50,4 +64,6 @@ public class Team {
     public void setBox(Box box) {
         this.box = box;
     }
+
+
 }

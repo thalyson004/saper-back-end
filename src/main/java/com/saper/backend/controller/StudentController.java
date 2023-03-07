@@ -25,4 +25,11 @@ public class StudentController {
 
         return studentService.findById(id);
     }
+
+    @PostMapping("/enrollment/{student_id}/{team_id}")
+    public ResponseEntity<Object> enroll(
+            @PathVariable(name = "student_id") Long student_id,
+            @PathVariable(name = "team_id") Long team_id){
+        return studentService.enroll(student_id, team_id);
+    }
 }
