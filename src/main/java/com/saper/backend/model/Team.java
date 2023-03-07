@@ -15,6 +15,8 @@ public class Team {
 
     @Column(name = "schedule")
     String schedule; //TODO: Mudar para DayOfWeek end LocalTime
+    // 35_19 : terça e quinta às 19
+    // 246_17 : segunda quarta e sexta, às 17
 
     @ManyToOne(targetEntity = Box.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "box_id")
