@@ -1,13 +1,12 @@
 package com.saper.backend.service;
 
-import com.saper.backend.dto.ClientRequestDTO;
-import com.saper.backend.dto.ClientResponseDTO;
+import com.saper.backend.dto.UserRequestDTO;
 import com.saper.backend.dto.StudentRequestDTO;
 import com.saper.backend.dto.StudentResponseDTO;
-import com.saper.backend.model.Client;
+import com.saper.backend.model.User;
 import com.saper.backend.model.Student;
 import com.saper.backend.model.Team;
-import com.saper.backend.repository.ClientRepository;
+import com.saper.backend.repository.UserRepository;
 import com.saper.backend.repository.StudentRepository;
 import com.saper.backend.repository.TeamRepository;
 import javax.transaction.Transactional;
@@ -26,7 +25,7 @@ public class StudentService {
     StudentRepository studentRepository;
 
     @Autowired
-    ClientRepository clientRepository;
+    UserRepository userRepository;
 
     @Autowired
     TeamRepository teamRepository;
@@ -34,17 +33,17 @@ public class StudentService {
 
     public ResponseEntity<Object> save(StudentRequestDTO studentRequestDTO) {
 
-        ClientRequestDTO clientRequestDTO = new ClientRequestDTO();
-        BeanUtils.copyProperties(studentRequestDTO, clientRequestDTO);
-        Client client = clientRequestDTO.toClient();
-        clientRepository.save(client);
+        UserRequestDTO userRequestDTO = new UserRequestDTO();
+        BeanUtils.copyProperties(studentRequestDTO, userRequestDTO);
+        User user = userRequestDTO.toClient();
+        userRepository.save(user);
 
         Student student = new Student();
 
         //TODO: Fazer lógica da matatrícula
         student.setRegistration("20224344535");
         student.setPaid(false);
-        student.setClient(client);
+        student.setClient(user);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new StudentResponseDTO(studentRepository.save(student)));
     }

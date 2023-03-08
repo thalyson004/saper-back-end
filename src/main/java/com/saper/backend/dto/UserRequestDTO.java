@@ -1,27 +1,27 @@
 package com.saper.backend.dto;
 
-import com.saper.backend.model.Client;
+import com.saper.backend.model.User;
 
-public class ClientRequestDTO {
+public class UserRequestDTO {
     String name;
     String login;
     String password;
     String repeated_password;
 
-    public ClientRequestDTO(String name, String login, String password, String repeated_password) {
+    public UserRequestDTO(String name, String login, String password, String repeated_password) {
         this.name = name;
         this.login = login;
         this.password = password;
         this.repeated_password = repeated_password;
     }
 
-    public ClientRequestDTO(String name, String login, String password) {
+    public UserRequestDTO(String name, String login, String password) {
         this.name = name;
         this.login = login;
         this.password = password;
     }
 
-    public ClientRequestDTO() {
+    public UserRequestDTO() {
     }
 
     public String getName() {
@@ -56,11 +56,11 @@ public class ClientRequestDTO {
         this.repeated_password = repeated_password;
     }
 
-    public Client toClient() {
-        Client client = new Client();
-        client.setName(name);
-        client.setPassword(password);
-        client.setLogin(login);
-        return client;
+    public User toClient() {
+        User user = new User();
+        user.setName(name);
+        user.setPassword(password);
+        user.setLogin(login);
+        return user;
     }
 }

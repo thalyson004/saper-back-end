@@ -3,7 +3,7 @@ package com.saper.backend.model;
 import javax.persistence.*;
 
 @Entity
-public class Client {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "client_id")
@@ -23,16 +23,16 @@ public class Client {
     )
     String password;
 
-    @OneToOne(targetEntity = Student.class, cascade = CascadeType.ALL, mappedBy = "client")
+    @OneToOne(targetEntity = Student.class, cascade = CascadeType.ALL, mappedBy = "user")
     Student student;
 
-    public Client(String name, String login, String password) {
+    public User(String name, String login, String password) {
         this.name = name;
         this.login = login;
         this.password = password;
     }
 
-    public Client() {
+    public User() {
     }
 
     public Long getId() {
