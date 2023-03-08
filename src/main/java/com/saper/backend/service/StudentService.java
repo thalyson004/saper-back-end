@@ -68,7 +68,7 @@ public class StudentService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Estudante não encontrado.");
         }
 
-        Optional<Team> teamOptional = teamRepository.findById(student_id);
+        Optional<Team> teamOptional = teamRepository.findById(team_id);
 
         if(teamOptional.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Time não encontrado.");
