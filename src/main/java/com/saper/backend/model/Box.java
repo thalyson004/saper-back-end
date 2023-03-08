@@ -1,6 +1,6 @@
 package com.saper.backend.model;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 import java.util.List;
 import java.util.Set;
