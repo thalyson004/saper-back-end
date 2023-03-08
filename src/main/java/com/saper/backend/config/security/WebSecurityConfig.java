@@ -15,8 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-@Configuration
-@EnableWebSecurity
+//@Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     AuthenticatorService authenticatorService;
