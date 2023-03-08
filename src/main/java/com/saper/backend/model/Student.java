@@ -16,9 +16,9 @@ public class Student {
     @Column(name = "paid")
     boolean paid;
 
-    @OneToOne(targetEntity = User.class, cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = Client.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "client_id")
-    User user;
+    Client client;
 
     @ManyToMany(
             targetEntity = Team.class,
@@ -32,11 +32,11 @@ public class Student {
     public Student() {
     }
 
-    public Student(Long id, String registration, boolean paid, User user, Set<Team> teams) {
+    public Student(Long id, String registration, boolean paid, Client client, Set<Team> teams) {
         this.id = id;
         this.registration = registration;
         this.paid = paid;
-        this.user = user;
+        this.client = client;
         this.teams = teams;
     }
 
@@ -72,11 +72,11 @@ public class Student {
         this.paid = paid;
     }
 
-    public User getClient() {
-        return user;
+    public Client getClient() {
+        return client;
     }
 
-    public void setClient(User user) {
-        this.user = user;
+    public void setClient(Client client) {
+        this.client = client;
     }
 }

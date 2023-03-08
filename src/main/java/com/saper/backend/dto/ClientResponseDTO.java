@@ -1,26 +1,26 @@
 package com.saper.backend.dto;
 
-import com.saper.backend.model.User;
+import com.saper.backend.model.Client;
 
-public class UserResponseDTO {
+public class ClientResponseDTO {
     String name;
     String login;
 
     Long student_id;
 
-    public UserResponseDTO() {
+    public ClientResponseDTO() {
     }
 
-    public UserResponseDTO(String name, String login, Long student_id) {
+    public ClientResponseDTO(String name, String login, Long student_id) {
         this.name = name;
         this.login = login;
         this.student_id = student_id;
     }
 
-    public UserResponseDTO(User user) {
-        this.name = user.getName();
-        this.login = user.getLogin();
-        this.student_id = user.getId();
+    public ClientResponseDTO(Client client) {
+        this.name = client.getName();
+        this.login = client.getLogin();
+        this.student_id = client.getId();
     }
 
     public Long getStudent_id() {
