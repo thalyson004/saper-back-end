@@ -16,13 +16,13 @@ public class SecurityConfiguration {
         http.httpBasic();
         http.authorizeHttpRequests()
                 .requestMatchers(HttpMethod.POST, "/clients").permitAll()
-                .requestMatchers(HttpMethod.GET, "/clients").hasAnyRole("ADMIN", "PROFESSOR")
+                .requestMatchers("/my/**").authenticated()
                 .requestMatchers(HttpMethod.DELETE, "/**").hasRole("ADMIN")
-                .anyRequest().authenticated();
+                .anyRequest().hasAnyRole("ADMIN", "PROFESSOR");
         http.csrf().disable();
-
         return http.build();
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder(){
