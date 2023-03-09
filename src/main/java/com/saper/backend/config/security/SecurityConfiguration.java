@@ -1,23 +1,20 @@
 package com.saper.backend.config.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
-//@Configuration
-public class WebSecurity extends WebSecurityConfigurerAdapter {
-    @Autowired
-    AuthenticatorService authenticatorService;
+import static org.springframework.security.config.Customizer.withDefaults;
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+@Configuration
+public class SecurityConfiguration {
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.httpBasic();
         http.authorizeHttpRequests()
                 .antMatchers(HttpMethod.POST, "/clients").permitAll()
@@ -25,13 +22,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/**").hasRole("ADMIN")
                 .anyRequest().authenticated();
         http.csrf().disable();
-    }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-            .userDetailsService(authenticatorService)
-            .passwordEncoder(passwordEncoder());
+        return http.build();
     }
 
     @Bean
