@@ -1,8 +1,8 @@
 package com.saper.backend.enums;
 
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
 
 public enum RoleNames {

@@ -7,6 +7,8 @@ import com.saper.backend.repository.ClientRepository;
 import com.saper.backend.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,6 +34,15 @@ public class ClientController {
 
     @PostMapping
     public ClientResponseDTO save(@RequestBody ClientRequestDTO clientRequestDTO){
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        String username;
+
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails)principal).getUsername();
+        }
+
         return clientService.save(clientRequestDTO);
     }
 

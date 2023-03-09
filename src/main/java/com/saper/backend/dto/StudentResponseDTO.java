@@ -2,10 +2,10 @@ package com.saper.backend.dto;
 
 import com.saper.backend.model.Client;
 import com.saper.backend.model.Student;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 
 public class StudentResponseDTO {
     Long id;
