@@ -4,6 +4,7 @@ import com.saper.backend.dto.BoxRequestDTO;
 import com.saper.backend.dto.BoxResponseDTO;
 import com.saper.backend.model.Box;
 import com.saper.backend.service.BoxService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,7 @@ public class BoxController {
     }
 
     @PostMapping
-    public BoxRequestDTO save(@RequestBody BoxRequestDTO boxRequestDTO){
+    public BoxRequestDTO save(@RequestBody @Valid BoxRequestDTO boxRequestDTO){
         return boxService.save(boxRequestDTO);
     }
 

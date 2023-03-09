@@ -1,9 +1,18 @@
 package com.saper.backend.dto;
 
-public class BoxRequestDTO {
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
+public class BoxRequestDTO {
+    @Size(message = "Nome do Box deve ser, no mínimo 5 e no máximo 50", min = 5, max = 50)
+    @NotNull
     String name;
 
+    @Min(message = "Capacidade mínima do Box é 5", value = 5)
+    @Max(message = "Capacidade máxima do Box é 100", value = 100)
+    @NotNull
     int capacity;
 
     public BoxRequestDTO(String name, int capacity) {
