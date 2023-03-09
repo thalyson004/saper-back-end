@@ -4,10 +4,13 @@ import com.saper.backend.dto.ClientRequestDTO;
 import com.saper.backend.dto.ClientResponseDTO;
 import com.saper.backend.dto.StudentRequestDTO;
 import com.saper.backend.dto.StudentResponseDTO;
+import com.saper.backend.enums.RoleNames;
 import com.saper.backend.model.Client;
+import com.saper.backend.model.Role;
 import com.saper.backend.model.Student;
 import com.saper.backend.model.Team;
 import com.saper.backend.repository.ClientRepository;
+import com.saper.backend.repository.RoleRepository;
 import com.saper.backend.repository.StudentRepository;
 import com.saper.backend.repository.TeamRepository;
 import jakarta.transaction.Transactional;
@@ -17,6 +20,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -31,17 +36,24 @@ public class StudentService {
     @Autowired
     TeamRepository teamRepository;
 
+    @Autowired
+    RoleRepository roleRepository;
+
 
     public ResponseEntity<Object> save(StudentRequestDTO studentRequestDTO) {
 
         ClientRequestDTO clientRequestDTO = new ClientRequestDTO();
         BeanUtils.copyProperties(studentRequestDTO, clientRequestDTO);
         Client client = clientRequestDTO.toClient();
+
+        Optional<Role> roleOptional = roleRepository.findByRole(RoleNames.ROLE_USER);
+        client.setRoles(List.of(roleOptional.get()));
+
         clientRepository.save(client);
 
         Student student = new Student();
 
-        //TODO: Fazer lógica da matatrícula
+        //TODO: Fazer lógica da matrícula
         student.setRegistration("20224344535");
         student.setPaid(false);
         student.setClient(client);
