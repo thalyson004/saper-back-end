@@ -17,10 +17,10 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.httpBasic();
         http.authorizeHttpRequests()
-                .antMatchers(HttpMethod.POST, "/clients").permitAll()
-                .antMatchers(HttpMethod.GET, "/clients").hasAnyRole("ADMIN", "PROFESSOR")
-                .antMatchers(HttpMethod.DELETE, "/**").hasRole("ADMIN")
-                .anyRequest().authenticated();
+                .requestMatchers(HttpMethod.POST, "/clients").permitAll()
+                .requestMatchers("/my/**").authenticated()
+                .requestMatchers(HttpMethod.DELETE, "/**").hasRole("ADMIN")
+                .anyRequest().hasAnyRole("ADMIN", "PROFESSOR");
         http.csrf().disable();
 
         return http.build();
