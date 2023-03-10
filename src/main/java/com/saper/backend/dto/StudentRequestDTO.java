@@ -10,11 +10,11 @@ import java.io.Serializable;
 public class StudentRequestDTO implements Serializable {
 
     @Size(min = 3, max = 10, message = "Nome tem tamanho mínimo de 3 e máximo de 10")
-    @NotNull(message = "Nome não pode ser nulo")
+    @NotBlank(message = "Nome não pode ser nulo")
     String name;
 
     @Email(message = "Login deve ser um email válido")
-    @NotNull(message = "Login não pode ser nulo")
+    @NotBlank(message = "Login é obrigatório")
     String login;
 
     @Size(min = 3, max = 10, message = "Password tem tamanho mínimo de 3 e máximo de 10")

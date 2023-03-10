@@ -5,6 +5,8 @@ import com.saper.backend.dto.ClientResponseDTO;
 import com.saper.backend.dto.StudentRequestDTO;
 import com.saper.backend.dto.StudentResponseDTO;
 import com.saper.backend.enums.RoleNames;
+import com.saper.backend.exception.ErrorDTO;
+import com.saper.backend.exception.exceptions.StudentStoreException;
 import com.saper.backend.model.Client;
 import com.saper.backend.model.Role;
 import com.saper.backend.model.Student;
@@ -20,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -40,6 +43,7 @@ public class StudentService {
     RoleRepository roleRepository;
 
 
+    @Transactional
     public ResponseEntity<Object> save(StudentRequestDTO studentRequestDTO) {
 
         ClientRequestDTO clientRequestDTO = new ClientRequestDTO();
@@ -60,7 +64,17 @@ public class StudentService {
         student.setPaid(false);
         student.setClient(client);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(new StudentResponseDTO(studentRepository.save(student)));
+        try {
+            student = studentRepository.save(student);
+        }catch (Exception e){
+            ErrorDTO errorDTO = new ErrorDTO();
+            errorDTO.setTimeStamp(Instant.now());
+            errorDTO.setPath("/aqui");
+            errorDTO.setError("Não foi possível criar o estudante");
+            errorDTO.setMessage(e.getMessage());
+            return ResponseEntity.internalServerError().body(errorDTO);
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(new StudentResponseDTO(student));
     }
 
     public ResponseEntity<Object> findById(Long id) {

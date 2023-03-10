@@ -1,6 +1,5 @@
 package com.saper.backend.exception;
 
-
 import java.time.Instant;
 
 public class ErrorDTO {
@@ -16,6 +15,9 @@ public class ErrorDTO {
         this.error = error;
         this.message = message;
         this.path = path;
+    }
+
+    public ErrorDTO() {
     }
 
     public Instant getTimeStamp() {
