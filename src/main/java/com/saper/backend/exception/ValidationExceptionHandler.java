@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestControllerAdvice
 public class ValidationExceptionHandler {
@@ -37,13 +38,24 @@ public class ValidationExceptionHandler {
     }
 
     @ResponseStatus(code = HttpStatus.NOT_FOUND)
-    @ExceptionHandler(Exception.class)
-    public ErrorDTO handleException(Exception exception, HttpServletRequest request) {
-        System.out.println(exception);
+    @ExceptionHandler(NoSuchElementException.class)
+    public ErrorDTO handleNoSuchElementException(NoSuchElementException exception, HttpServletRequest request) {
         ErrorDTO errorDTO = new ErrorDTO();
         errorDTO.setTimeStamp(Instant.now());
         errorDTO.setStatus(HttpStatus.NOT_FOUND.toString());
         errorDTO.setError("resource not found");
+        errorDTO.setMessage(exception.getMessage());
+        errorDTO.setPath(request.getRequestURI());
+        return errorDTO;
+    }
+
+    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(Exception.class)
+    public ErrorDTO handleException(Exception exception, HttpServletRequest request) {
+        ErrorDTO errorDTO = new ErrorDTO();
+        errorDTO.setTimeStamp(Instant.now());
+        errorDTO.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.toString());
+        errorDTO.setError("internal error");
         errorDTO.setMessage(exception.getMessage());
         errorDTO.setPath(request.getRequestURI());
         return errorDTO;
