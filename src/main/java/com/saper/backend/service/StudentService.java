@@ -1,12 +1,11 @@
 package com.saper.backend.service;
 
 import com.saper.backend.dto.ClientRequestDTO;
-import com.saper.backend.dto.ClientResponseDTO;
 import com.saper.backend.dto.StudentRequestDTO;
 import com.saper.backend.dto.StudentResponseDTO;
 import com.saper.backend.enums.RoleNames;
 import com.saper.backend.exception.ErrorDTO;
-import com.saper.backend.exception.exceptions.StudentStoreException;
+import com.saper.backend.exception.exceptions.ConflictStoreException;
 import com.saper.backend.model.Client;
 import com.saper.backend.model.Role;
 import com.saper.backend.model.Student;
@@ -45,6 +44,10 @@ public class StudentService {
 
     @Transactional
     public ResponseEntity<Object> save(StudentRequestDTO studentRequestDTO) {
+
+        if(clientRepository.existsByLogin(studentRequestDTO.getLogin())){
+            throw new ConflictStoreException("login already in use");
+        }
 
         ClientRequestDTO clientRequestDTO = new ClientRequestDTO();
         BeanUtils.copyProperties(studentRequestDTO, clientRequestDTO);

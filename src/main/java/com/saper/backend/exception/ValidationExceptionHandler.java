@@ -1,5 +1,6 @@
 package com.saper.backend.exception;
 
+import com.saper.backend.exception.exceptions.ConflictStoreException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -60,6 +61,20 @@ public class ValidationExceptionHandler {
         errorDTO.setStatus(HttpStatus.CONFLICT.toString());
         errorDTO.setError("conflict");
         errorDTO.setMessage(exception.getCause().getMessage());
+        errorDTO.setPath(request.getRequestURI());
+        return errorDTO;
+    }
+
+    @ResponseStatus(code = HttpStatus.CONFLICT)
+    @ExceptionHandler(ConflictStoreException.class)
+    public ErrorDTO handleConflictStoreException(
+            ConflictStoreException exception,
+            HttpServletRequest request) {
+        ErrorDTO errorDTO = new ErrorDTO();
+        errorDTO.setTimeStamp(Instant.now());
+        errorDTO.setStatus(HttpStatus.CONFLICT.toString());
+        errorDTO.setError("conflict");
+        errorDTO.setMessage(exception.getMessage());
         errorDTO.setPath(request.getRequestURI());
         return errorDTO;
     }
