@@ -2,6 +2,7 @@ package com.saper.backend.controller;
 
 import com.saper.backend.dto.StudentRequestDTO;
 import com.saper.backend.service.StudentService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,7 @@ public class StudentController {
 
     @PostMapping
     public ResponseEntity<Object> save(
-            @RequestBody StudentRequestDTO studentRequestDTO){
+            @RequestBody @Valid StudentRequestDTO studentRequestDTO){
         return studentService.save(studentRequestDTO);
     }
 
