@@ -55,7 +55,9 @@ public class StudentService {
         roles.add(role.get());
         client.setRoles(roles);
 
+
         clientRepository.save(client);
+
 
         Student student = new Student();
 

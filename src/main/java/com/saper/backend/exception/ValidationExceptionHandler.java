@@ -2,6 +2,7 @@ package com.saper.backend.exception;
 
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
@@ -49,9 +50,25 @@ public class ValidationExceptionHandler {
         return errorDTO;
     }
 
+    @ResponseStatus(code = HttpStatus.CONFLICT)
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ErrorDTO handleDataIntegrityViolationException(
+            DataIntegrityViolationException exception,
+            HttpServletRequest request) {
+        ErrorDTO errorDTO = new ErrorDTO();
+        errorDTO.setTimeStamp(Instant.now());
+        errorDTO.setStatus(HttpStatus.CONFLICT.toString());
+        errorDTO.setError("conflict");
+        errorDTO.setMessage(exception.getCause().getMessage());
+        errorDTO.setPath(request.getRequestURI());
+        return errorDTO;
+    }
+
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public ErrorDTO handleException(Exception exception, HttpServletRequest request) {
+        System.out.println(exception.getClass());
+
         ErrorDTO errorDTO = new ErrorDTO();
         errorDTO.setTimeStamp(Instant.now());
         errorDTO.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.toString());
