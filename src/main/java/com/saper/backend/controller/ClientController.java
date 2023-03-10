@@ -32,19 +32,6 @@ public class ClientController {
         return list.stream().map(ClientResponseDTO::new).toList();
     }
 
-    @PostMapping
-    public ClientResponseDTO save(@RequestBody ClientRequestDTO clientRequestDTO){
-
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        String username;
-
-        if (principal instanceof UserDetails) {
-            username = ((UserDetails)principal).getUsername();
-        }
-
-        return clientService.save(clientRequestDTO);
-    }
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> update(

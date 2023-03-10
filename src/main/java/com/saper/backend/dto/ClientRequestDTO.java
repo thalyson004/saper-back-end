@@ -59,7 +59,6 @@ public class ClientRequestDTO {
 
     public Client toClient() {
         password = new BCryptPasswordEncoder().encode(password);
-
         Client client = new Client();
         client.setName(name);
         client.setPassword(password);
