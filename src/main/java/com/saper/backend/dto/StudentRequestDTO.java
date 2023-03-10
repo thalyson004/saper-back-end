@@ -1,5 +1,6 @@
 package com.saper.backend.dto;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -12,13 +13,15 @@ public class StudentRequestDTO implements Serializable {
     @NotNull(message = "Nome não pode ser nulo")
     String name;
 
-    @Size(min = 3, max = 10, message = "Login tem tamanho mínimo de 3 e máximo de 10")
+    @Email(message = "Login deve ser m email válido")
     @NotNull(message = "Login não pode ser nulo")
     String login;
 
     @Size(min = 3, max = 10, message = "Password tem tamanho mínimo de 3 e máximo de 10")
     @NotNull(message = "Password não pode ser nulo")
     String password;
+
+    @NotNull(message = "Confirmação da senha deve ser informada.")
     String repeated_password;
 
     public StudentRequestDTO(String name, String login, String password, String repeated_password) {
