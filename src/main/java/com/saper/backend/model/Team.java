@@ -16,7 +16,6 @@ public class Team {
     // Alunos matriculados
     @ManyToMany(
             targetEntity = Student.class,
-            cascade = CascadeType.ALL,
             mappedBy = "teams")
     Set<Student> students;
 

@@ -21,8 +21,8 @@ public class Student {
     Client client;
 
     @ManyToMany(
-            targetEntity = Team.class,
-            cascade = CascadeType.ALL)
+            targetEntity = Team.class
+            )
     @JoinTable(name = "enrollment",
                 joinColumns = @JoinColumn(name = "student_id"),
                 inverseJoinColumns = @JoinColumn(name = "team_id"))
