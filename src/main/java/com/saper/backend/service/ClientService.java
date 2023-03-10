@@ -75,20 +75,9 @@ public class ClientService {
 
     @Transactional
     public ResponseEntity<Object> delete(Long id) {
-        Optional<Client> clientOptional = clientRepository.findById(id);
-//        try{
-            Client client = clientOptional.get();
-            clientRepository.delete(client);
-            return ResponseEntity.status(HttpStatus.OK).build();
-//        }catch (Exception exception){
-//            ErrorDTO errorDTO = new ErrorDTO();
-//            errorDTO.setTimestamp(Instant.now());
-//            errorDTO.setStatus(HttpStatus.NOT_FOUND.value());
-//            errorDTO.setError("recurso não encontrado");
-//            errorDTO.setMessage("Cliente não encontrado");
-//            errorDTO.setPath("/delete");
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDTO);
-//        }
+        Client client = clientRepository.findById(id).orElseThrow();
+        clientRepository.delete(client);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 }
