@@ -2,6 +2,7 @@ package com.saper.backend.service;
 
 import com.saper.backend.dto.ClientRequestDTO;
 import com.saper.backend.dto.ClientResponseDTO;
+import com.saper.backend.exception.ErrorDTO;
 import com.saper.backend.model.Client;
 import com.saper.backend.repository.ClientRepository;
 import jakarta.transaction.Transactional;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -74,12 +76,19 @@ public class ClientService {
     @Transactional
     public ResponseEntity<Object> delete(Long id) {
         Optional<Client> clientOptional = clientRepository.findById(id);
-        if(clientOptional.isPresent()){
+//        try{
             Client client = clientOptional.get();
             clientRepository.delete(client);
             return ResponseEntity.status(HttpStatus.OK).build();
-        }else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
-        }
+//        }catch (Exception exception){
+//            ErrorDTO errorDTO = new ErrorDTO();
+//            errorDTO.setTimestamp(Instant.now());
+//            errorDTO.setStatus(HttpStatus.NOT_FOUND.value());
+//            errorDTO.setError("recurso não encontrado");
+//            errorDTO.setMessage("Cliente não encontrado");
+//            errorDTO.setPath("/delete");
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDTO);
+//        }
     }
+
 }
