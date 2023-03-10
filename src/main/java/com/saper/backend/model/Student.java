@@ -79,4 +79,8 @@ public class Student {
     public void setClient(Client client) {
         this.client = client;
     }
+
+    public void add(Team team){
+        teams.add(team);
+    }
 }

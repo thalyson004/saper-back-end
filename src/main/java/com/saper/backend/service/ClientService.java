@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -34,7 +35,7 @@ public class ClientService {
     }
 
     public ResponseEntity<Object> find(Long id) {
-        Client client = clientRepository.findById(id).orElseThrow();
+        Client client = clientRepository.findById(id).orElseThrow(() -> new NoSuchElementException("client not found"));
 
         return ResponseEntity.status(HttpStatus.OK).body(new ClientResponseDTO(client));
     }

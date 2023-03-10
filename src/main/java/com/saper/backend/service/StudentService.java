@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -58,7 +59,6 @@ public class StudentService {
         roles.add(role.get());
         client.setRoles(roles);
 
-
         clientRepository.save(client);
 
 
@@ -69,16 +69,8 @@ public class StudentService {
         student.setPaid(false);
         student.setClient(client);
 
-        try {
-            student = studentRepository.save(student);
-        }catch (Exception e){
-            ErrorDTO errorDTO = new ErrorDTO();
-            errorDTO.setTimeStamp(Instant.now());
-            errorDTO.setPath("/aqui");
-            errorDTO.setError("Não foi possível criar o estudante");
-            errorDTO.setMessage(e.getMessage());
-            return ResponseEntity.internalServerError().body(errorDTO);
-        }
+        student = studentRepository.save(student);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(new StudentResponseDTO(student));
     }
 
@@ -95,21 +87,14 @@ public class StudentService {
     @Transactional
     public ResponseEntity<Object> enroll(Long student_id, Long team_id) {
 
-        Optional<Student> studentOptional = studentRepository.findById(student_id);
+        Student student = studentRepository.findById(student_id).orElseThrow(() -> new NoSuchElementException("student not found"));
+        Team team = teamRepository.findById(team_id).orElseThrow(()-> new NoSuchElementException("team not found"));
 
-        if(studentOptional.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Estudante não encontrado.");
+        if (student.getTeams().contains(team)){
+            throw new ConflictStoreException("enrollment already created");
+        }else {
+            student.add(team);
         }
-
-        Optional<Team> teamOptional = teamRepository.findById(team_id);
-
-        if(teamOptional.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Time não encontrado.");
-        }
-
-        Student student = studentOptional.get();
-        Team team = teamOptional.get();
-        student.getTeams().add(team);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new StudentResponseDTO(studentRepository.save(student)));
     }
