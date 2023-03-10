@@ -13,7 +13,7 @@ public class StudentRequestDTO implements Serializable {
     @NotNull(message = "Nome não pode ser nulo")
     String name;
 
-    @Email(message = "Login deve ser m email válido")
+    @Email(message = "Login deve ser um email válido")
     @NotNull(message = "Login não pode ser nulo")
     String login;
 
