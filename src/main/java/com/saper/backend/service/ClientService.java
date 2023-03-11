@@ -3,6 +3,7 @@ package com.saper.backend.service;
 import com.saper.backend.dto.ClientRequestDTO;
 import com.saper.backend.dto.ClientResponseDTO;
 import com.saper.backend.exception.ErrorDTO;
+import com.saper.backend.exception.exceptions.ConflictStoreException;
 import com.saper.backend.model.Client;
 import com.saper.backend.repository.ClientRepository;
 import jakarta.transaction.Transactional;
@@ -33,44 +34,38 @@ public class ClientService {
     @Transactional
     public ClientResponseDTO save(ClientRequestDTO clientRequestDTO) {
         // Verificaço de regras
-
         Client client = clientRequestDTO.toClient();
+
+        if(clientRepository.existsByLogin(client.getLogin())){
+            throw new ConflictStoreException("login already in use");
+        }
 
         return new ClientResponseDTO(clientRepository.save(client));
     }
 
     public ResponseEntity<Object> find(Long id) {
-        Optional<Client> clientOptional = clientRepository.findById(id);
-
-        if(clientOptional.isPresent()){
-            return ResponseEntity.status(HttpStatus.OK).body(new ClientResponseDTO(clientOptional.get()));
-        }else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado.");
-        }
+        Client client = clientRepository.findById(id).orElseThrow();
+        return ResponseEntity.status(HttpStatus.OK).body(new ClientResponseDTO(client));
     }
 
     @Transactional
     public ResponseEntity<Object> update(Long id, ClientRequestDTO clientRequestDTO) {
         //Achar
-        Optional<Client> clientOptional = clientRepository.findById(id);
-        if(clientOptional.isPresent()){
-            Client client = clientOptional.get();
-            // Modificar
-            if(clientRequestDTO.getName()!=null){
-                client.setName(clientRequestDTO.getName());
-            }
-            if(clientRequestDTO.getPassword()!=null){
-                client.setPassword(clientRequestDTO.getPassword());
-            }
-            if(clientRequestDTO.getLogin()!=null){
-                client.setLogin(clientRequestDTO.getLogin());
-            }
-            // Salvar
-            ClientResponseDTO clientResponseDTO = new ClientResponseDTO(clientRepository.save(client));
-            return ResponseEntity.status(HttpStatus.CREATED).body(clientResponseDTO);
-        }else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
+        Client client = clientRepository.findById(id).orElseThrow();
+
+        // Modificar
+        if(clientRequestDTO.getName()!=null){
+            client.setName(clientRequestDTO.getName());
         }
+        if(clientRequestDTO.getPassword()!=null){
+            client.setPassword(clientRequestDTO.getPassword());
+        }
+        if(clientRequestDTO.getLogin()!=null){
+            client.setLogin(clientRequestDTO.getLogin());
+        }
+            // Salvar
+        ClientResponseDTO clientResponseDTO = new ClientResponseDTO(clientRepository.save(client));
+        return ResponseEntity.status(HttpStatus.CREATED).body(clientResponseDTO);
     }
 
     @Transactional

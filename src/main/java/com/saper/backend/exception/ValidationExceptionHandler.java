@@ -1,6 +1,8 @@
 package com.saper.backend.exception;
 
+import com.saper.backend.exception.exceptions.ConflictStoreException;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
@@ -46,6 +48,35 @@ public class ValidationExceptionHandler {
         errorDTO.setStatus(HttpStatus.NOT_FOUND.value());
         errorDTO.setError("resource not found");
         errorDTO.setMessage(exception.getMessage());
+        errorDTO.setPath(request.getRequestURI());
+        return errorDTO;
+    }
+
+    @ResponseStatus(code = HttpStatus.CONFLICT)
+    @ExceptionHandler(ConflictStoreException.class)
+    public ErrorDTO handleConflictStoreException(
+            ConflictStoreException exception,
+            HttpServletRequest request) {
+
+        ErrorDTO errorDTO = new ErrorDTO();
+        errorDTO.setTimestamp(Instant.now());
+        errorDTO.setStatus(HttpStatus.CONFLICT.value());
+        errorDTO.setError("conflict");
+        errorDTO.setMessage(exception.getMessage());
+        errorDTO.setPath(request.getRequestURI());
+        return errorDTO;
+    }
+    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ErrorDTO handleDataIntegrityViolationException(
+            DataIntegrityViolationException exception,
+            HttpServletRequest request) {
+
+        ErrorDTO errorDTO = new ErrorDTO();
+        errorDTO.setTimestamp(Instant.now());
+        errorDTO.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        errorDTO.setError("internal error");
+        errorDTO.setMessage(exception.getCause().getMessage());
         errorDTO.setPath(request.getRequestURI());
         return errorDTO;
     }

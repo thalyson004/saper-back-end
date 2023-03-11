@@ -5,6 +5,7 @@ import com.saper.backend.dto.ClientResponseDTO;
 import com.saper.backend.dto.StudentRequestDTO;
 import com.saper.backend.dto.StudentResponseDTO;
 import com.saper.backend.enums.RoleNames;
+import com.saper.backend.exception.exceptions.ConflictStoreException;
 import com.saper.backend.model.Client;
 import com.saper.backend.model.Role;
 import com.saper.backend.model.Student;
@@ -45,6 +46,10 @@ public class StudentService {
         ClientRequestDTO clientRequestDTO = new ClientRequestDTO();
         BeanUtils.copyProperties(studentRequestDTO, clientRequestDTO);
         Client client = clientRequestDTO.toClient();
+
+        if(clientRepository.existsByLogin(client.getLogin())){
+            throw new ConflictStoreException("login already in use");
+        }
 
         Optional<Role> role = roleRepository.findByRole(RoleNames.ROLE_USER);
         List<Role> roles = new ArrayList<>();
