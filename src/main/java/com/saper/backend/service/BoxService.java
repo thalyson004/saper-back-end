@@ -3,6 +3,7 @@ package com.saper.backend.service;
 import com.saper.backend.dto.BoxRequestDTO;
 import com.saper.backend.dto.BoxResponseDTO;
 import com.saper.backend.model.Box;
+import com.saper.backend.model.Client;
 import com.saper.backend.repository.BoxRespository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -18,7 +20,6 @@ public class BoxService {
 
     @Autowired
     BoxRespository boxRespository;
-
 
     public List<BoxResponseDTO> findAll(String name, int min, int max) {
         return boxRespository.findAllByNameContainingIgnoreCaseAndCapacityGreaterThanEqualAndCapacityLessThanEqual(name, min, max).stream().map(BoxResponseDTO::new).toList();
@@ -33,6 +34,13 @@ public class BoxService {
         boxRespository.save(box);
 
         return boxRequestDTO;
+    }
+
+    @Transactional
+    public ResponseEntity<Object> delete(Long id) {
+        Box box = boxRespository.findById(id).orElseThrow();
+        boxRespository.delete(box);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @Transactional
