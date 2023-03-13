@@ -41,6 +41,12 @@ public class StudentService {
     @Autowired
     RoleRepository roleRepository;
 
+    public ResponseEntity<Object> findAll() {
+        return ResponseEntity.status(HttpStatus.OK).body(
+          studentRepository.findAll().stream().map((student)->new StudentResponseDTO(student)).toList()
+        );
+    }
+
 
     public ResponseEntity<Object> save(StudentRequestDTO studentRequestDTO) {
 
@@ -92,4 +98,6 @@ public class StudentService {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new StudentResponseDTO(studentRepository.save(student)));
     }
+
+
 }

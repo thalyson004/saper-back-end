@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -36,5 +37,16 @@ public class TeamService {
         team.setBox(box);
         team.setSchedule(teamRequestDTO.getSchedule());
         return ResponseEntity.status(HttpStatus.CREATED).body( new TeamResponseDTO(teamRepository.save(team)));
+    }
+
+    public ResponseEntity<Object> findById(Long id) {
+        Team team = teamRepository.findById(id).orElseThrow(()-> new NoSuchElementException("team not found"));
+        return ResponseEntity.status(HttpStatus.OK).body(new TeamResponseDTO(team));
+    }
+
+    public ResponseEntity<Object> findAll() {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                teamRepository.findAll().stream().map((team)->new TeamResponseDTO(team)).toList()
+        );
     }
 }

@@ -26,6 +26,11 @@ public class StudentController {
         return studentService.findById(id);
     }
 
+    @GetMapping
+    public ResponseEntity<Object> findAll(){
+        return studentService.findAll();
+    }
+
     @PostMapping("/enrollment/{student_id}/{team_id}")
     public  ResponseEntity<Object> enroll(
             @PathVariable(name = "student_id") Long student_id,
