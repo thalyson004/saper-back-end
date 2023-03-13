@@ -11,7 +11,7 @@ public class BoxRequestDTO {
     @NotNull(message = "name não pode ser nulo")
     String name;
 
-    @Min(value = 5, message = "Capacidade mínima do box é 5")
+    @Min(value = 1, message = "Capacidade mínima do box é 5")
     @Max(value = 99, message = "Capacidade máxima do box é 99")
     int capacity;
 

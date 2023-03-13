@@ -93,6 +93,8 @@ public class StudentService {
             throw new ConflictStoreException("student already enrolled");
         }
 
+        //TODO: Verificar capacidade
+
         return ResponseEntity.status(HttpStatus.CREATED).body(new StudentResponseDTO(studentRepository.save(student)));
     }
 
