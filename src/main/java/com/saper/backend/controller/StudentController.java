@@ -1,6 +1,7 @@
 package com.saper.backend.controller;
 
 import com.saper.backend.dto.StudentRequestDTO;
+import com.saper.backend.dto.StudentUpdateDTO;
 import com.saper.backend.service.StudentService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,13 @@ public class StudentController {
     @GetMapping
     public ResponseEntity<Object> findAll(){
         return studentService.findAll();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> update(
+            @PathVariable(name = "id") Long id,
+            @RequestBody StudentUpdateDTO studentUpdateDTO){
+        return studentService.update(id, studentUpdateDTO);
     }
 
     @PostMapping("/enrollment/{student_id}/{team_id}")

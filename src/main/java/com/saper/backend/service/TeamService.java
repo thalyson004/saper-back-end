@@ -2,6 +2,8 @@ package com.saper.backend.service;
 
 import com.saper.backend.dto.TeamRequestDTO;
 import com.saper.backend.dto.TeamResponseDTO;
+import com.saper.backend.dto.TeamUpdateDTO;
+import com.saper.backend.exception.exceptions.FieldException;
 import com.saper.backend.model.Box;
 import com.saper.backend.model.Team;
 import com.saper.backend.repository.BoxRespository;
@@ -11,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -48,5 +52,25 @@ public class TeamService {
         return ResponseEntity.status(HttpStatus.OK).body(
                 teamRepository.findAll().stream().map((team)->new TeamResponseDTO(team)).toList()
         );
+    }
+
+
+    public ResponseEntity<Object> update(Long id, TeamUpdateDTO teamUpdateDTO) {
+        Team team = teamRepository.findById(id).orElseThrow(
+                ()->new NoSuchElementException("team not found")
+        );
+
+        //TODO: Verificar se respeita as regras
+        String schedule = teamUpdateDTO.getSchedule();
+
+        List<String> parts = Arrays.stream(schedule.split("_")).toList();
+        if(parts.size()!=2){
+            throw new FieldException("schedule must have one underscore");
+        }
+
+        team.setSchedule(schedule);
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new TeamResponseDTO(teamRepository.save(team)));
     }
 }

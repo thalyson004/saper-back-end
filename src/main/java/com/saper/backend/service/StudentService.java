@@ -1,9 +1,6 @@
 package com.saper.backend.service;
 
-import com.saper.backend.dto.ClientRequestDTO;
-import com.saper.backend.dto.ClientResponseDTO;
-import com.saper.backend.dto.StudentRequestDTO;
-import com.saper.backend.dto.StudentResponseDTO;
+import com.saper.backend.dto.*;
 import com.saper.backend.enums.RoleNames;
 import com.saper.backend.exception.exceptions.ConflictStoreException;
 import com.saper.backend.model.Client;
@@ -100,4 +97,14 @@ public class StudentService {
     }
 
 
+    public ResponseEntity<Object> update(Long id, StudentUpdateDTO studentUpdateDTO) {
+        Student student = studentRepository.findById(id)
+                .orElseThrow(()->new NoSuchElementException("student not found"));
+
+        student.setPaid(studentUpdateDTO.isPaid());
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new StudentResponseDTO(studentRepository.save(student))
+        );
+    }
 }

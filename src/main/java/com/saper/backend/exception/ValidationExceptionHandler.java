@@ -1,6 +1,7 @@
 package com.saper.backend.exception;
 
 import com.saper.backend.exception.exceptions.ConflictStoreException;
+import com.saper.backend.exception.exceptions.FieldException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -47,6 +48,22 @@ public class ValidationExceptionHandler {
         errorDTO.setTimestamp(Instant.now());
         errorDTO.setStatus(HttpStatus.NOT_FOUND.value());
         errorDTO.setError("resource not found");
+        errorDTO.setMessage(exception.getMessage());
+        errorDTO.setPath(request.getRequestURI());
+        return errorDTO;
+    }
+
+    @ResponseStatus(code = HttpStatus.CONFLICT)
+    @ExceptionHandler(FieldException.class)
+    public ErrorDTO handleFieldException(
+            FieldException exception,
+            HttpServletRequest request) {
+
+        System.out.println(exception.getClass());
+        ErrorDTO errorDTO = new ErrorDTO();
+        errorDTO.setTimestamp(Instant.now());
+        errorDTO.setStatus(HttpStatus.CONFLICT.value());
+        errorDTO.setError("field not valid");
         errorDTO.setMessage(exception.getMessage());
         errorDTO.setPath(request.getRequestURI());
         return errorDTO;
